@@ -1,0 +1,9 @@
+//save your boardid, trello key and trello token under the boards secrets. you find the board secrets under the board settings
+
+const {data} = await api.get(`https://api.trello.com/1/boards/${secrets.boardid}/cards?key=${secrets.key}&token=${secrets.token}`)
+
+return data.map(line => ({
+  Task: line.name
+  })
+)
+
