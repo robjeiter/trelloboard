@@ -1,0 +1,50 @@
+How to connect data from your Trello board to your Zero Dashboard:
+
+If you wish to build a dashboard with the most important team information in one place you might as well want to include the software that you use for assigning and managing tasks. Atlassian provides an extensive API for both JIRA and Trello which allows you to display any kind of data from these applications in your Zero dashboard.
+
+In the following we explain to you how to list your Trello tasks on Zero. Let’s assume you already have a Trello board for your team set up. As a next step you should transform your Trello board into a JSON in order to obtain the board-ID. Use the following steps to complete this:
+
+Type in the URL of your Trello Board
+ At the end of the URL add “.json” and press enter. You should obtain the *.json format of your Trello board. 
+Copy the board id of the trello board which should appear right at the beginning of the *.json file and should look similar to this:
+
+
+Your next task is to obtain your Trello API key. Make sure you are logged in into your Trello account and visit the following URL: https://trello.com/app-key
+From there you should be able to obtain your Trello API key. 
+
+Eventually you also need to generate a Trello token. You can do this as well from the https://trello.com/app-key URL by simply clicking on the generate token button: 
+
+
+
+Once you allow access to your account in the dialogue window you will obtain  your Trello API token. 
+
+At this point you should have your Trello board-ID, your API key and your access token. You can now move back to your Zero Board and go to Board Settings. In the section Board Secrets add the three variables and they will get encrypted. 
+
+ Thereafter you can move to your Zero Dashboard and add a new table. You can use the following code to access the cards on your Trello board:
+
+const {data} = await api.get(`https://api.trello.com/1/boards/${secrets.boardid}/cards?key=${secrets.key}&token=${secrets.token}`)
+
+return data.map(line => ({
+  Task: line.name
+  })
+)
+
+Make sure you update the information with your board-ID, API key and access token. 
+
+You can display any information on Zero that is transmitted through the Trello API. If you want to observe the information that is returned in the JSON file you can use print to the console:
+
+return console.log(data)
+
+You may use a JSON visualizer to analyze the data that is shared through the API: http://jsonviewer.stack.hu/
+
+Through using the map() method you are able to transform the data provided by the API into a Zero table. 
+
+If you wish to access different information from Trello adjust your query accordingly based on the guidance provided in the Trello API documentation: https://developer.atlassian.com/cloud/trello/rest/api-group-boards/
+
+You may also create and update Trello cards and boards directly through Zero. 
+
+
+
+
+
+
